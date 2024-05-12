@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/matter-js": "^0.19.6",
+    "@types/react": "18.2.24",
     "date-fns": "^3.6.0",
     "gray-matter": "^4.0.3",
     "next": "latest",
@@ -16,5 +18,9 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "typescript": "5.4.5"
   }
 }

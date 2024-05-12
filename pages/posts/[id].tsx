@@ -1,8 +1,10 @@
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import utilStyles from "../../styles/utils.module.css";
 import Head from "next/head";
 import Layout from "../../components/layout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Date from "../../components/date";
+import { ParsedUrlQuery } from "querystring";
 
 export default function Post({ postData }) {
   return (
@@ -20,15 +22,26 @@ export default function Post({ postData }) {
     </Layout>
   );
 }
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = (async () => {
   const paths = getAllPostIds();
   return {
     paths,
     fallback: false,
   };
+});
+
+type PostData = any // TODO: define type
+
+type Props = {
+  postData: PostData,
 }
 
-export async function getStaticProps({ params }) {
+interface Params extends ParsedUrlQuery {
+  id: string,
+}
+
+export const getStaticProps: GetStaticProps<Props, Params> = (async (context) => {
+  const params  = context.params!;
   const postData = await getPostData(params.id);
 
   return {
@@ -36,4 +49,4 @@ export async function getStaticProps({ params }) {
       postData,
     },
   };
-}
+});
